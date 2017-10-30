@@ -1,6 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
-
+from datetime import datetime
 
 
 class Tweet(db.Model):
@@ -10,7 +10,7 @@ class Tweet(db.Model):
 
     item_id = db.Column(db.Integer, autoincrement=True, primary_key=True, nullable=False)
     handle = db.Column(db.String(25), nullable=True)
-    time_created = db.Column(db.Datetime, nullable=True)
+    time_created = db.Column(db.DateTime, nullable=True, default=datetime.utcnow)
     text = db.Column(db.String(300), nullable=True)
     retweets = db.Column(db.Integer, nullable=True)
 
@@ -18,7 +18,7 @@ class Tweet(db.Model):
         """prettify output"""
 
         return "<Item item_id=%s handle=%s>" % (self.item_id, self.handle)
-        
+
 
 def connect_to_db(app, db_uri="postgresql:///newb"):
     """Connect the database to app"""
