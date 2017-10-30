@@ -22,10 +22,8 @@ def authorize():
     return json.loads(data)
 
 
-@app.route("/")
-def homepage():
-    """Display tweets"""
-    
+def format_tweets():
+    """return a list of tuples of recent codenewbie tweets"""
 
     tweet = None
     time_created = None
@@ -34,13 +32,25 @@ def homepage():
     output = []
 
     for result in results:
-        tweet = result['text']
-        time_created =  result['created_at']
-        if 'retweeted_status' in result:
-            retweets = result['retweeted_status']['retweet_count']
-        output.append((tweet, time_created, retweets))
+        if result['text'][0:2] != 'RT':
+            tweet = result['text']
+            time_created =  result['created_at']
+            handle = result['user']['screen_name']
+            if 'retweeted_status' in result:
+                retweets = result['retweeted_status']['retweet_count']
+            output.append((handle, time_created, tweet, retweets))
+
+    return output
+
+
+@app.route("/")
+def homepage():
+    """Display tweets"""
+    
+    output = format_tweets()
 
     return render_template("home.html", output=output)
+
 
 
 
