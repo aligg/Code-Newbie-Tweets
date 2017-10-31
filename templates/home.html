@@ -1,4 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content%}
 
 {% for tweet in output %}
     {{tweet.handle }} {{tweet.time_created }} {{tweet.text }} {{tweet.retweets }}<br>
 {% endfor %}
+
+{% endblock %}
