@@ -69,7 +69,7 @@ def homepage():
     output = [a for a in Tweet.query.all()]
    
 
-    return render_template("home.html", output = output) #, output=output
+    return render_template("home.html", output = output)
 
 
 
