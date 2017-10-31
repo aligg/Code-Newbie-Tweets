@@ -1,0 +1,34 @@
+
+.container {
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+.footer {
+    padding-top: 19px;
+    color: #777;
+    border-top: 1px solid #e5e5e5;
+}
+
+.marketing {
+    margin: 40px;
+}
+
+.pull-right {
+    float: right!important;
+}
+
+ul, {
+    display: block;
+}
+
+.header {
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.header .marketing {
+    padding-right: 15px;
+    padding-left: 15px;
+}
