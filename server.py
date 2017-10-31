@@ -72,6 +72,18 @@ def homepage():
     return render_template("home.html", output = output)
 
 
+@app.route("/api/tweets")
+def create_api_endpoint():
+    """Using ingested dsta from twitter create an API endpoint"""
+
+    tweedict = {}
+    tweets = Tweet.query.all()
+
+    for tweet in tweets:
+        tweedict[tweet.handle] = tweet.text
+
+    return jsonify(tweedict)
+
 
 
 if __name__ == "__main__":
