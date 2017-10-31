@@ -44,16 +44,32 @@ def format_tweets():
 
     return output
 
+def tweet_to_db():
+    """Add tweets into db"""
+
+
+    output = format_tweets()
+    text_list = [a.text for a in Tweet.query.all()]
+
+    for tweet in output:
+        if text not in text_list:
+            tweet = Tweet(handle = tweet[0],
+                            time_created =tweet[1],
+                            text = tweet[2],
+                            retweets = tweet[3])
+            db.session.add(tweet)
+
+    db.session.commit()
+
 
 @app.route("/")
 def homepage():
     """Display tweets"""
     
-    output = format_tweets()
+    output = [a for a in Tweet.query.all()]
+   
 
-
-
-    return render_template("home.html", output=output)
+    return render_template("home.html", output = output) #, output=output
 
 
 
@@ -62,3 +78,6 @@ if __name__ == "__main__":
     app.debug = True
     connect_to_db(app, "postgresql:///newb")
     app.run(port=5000)
+    tweet_to_db()
+
+
