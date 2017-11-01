@@ -1,10 +1,10 @@
 import json
+import time
 import oauth2 as oauth
-from secret import keys 
+from secret import keys
 from flask import (Flask, jsonify, render_template)
 from model import (connect_to_db, db, Tweet)
 #import pprint    pp = pprint.PrettyPrinter(indent=4) pp.pprint(stufftoprint)
-import time
 
 
 
@@ -36,7 +36,7 @@ def format_tweets():
     for result in results:
         if result['text'][0:2] != 'RT':
             tweet = result['text']
-            time_created =  time.strftime('%Y-%m-%d %H:%M:%S', time.strptime(result['created_at'],'%a %b %d %H:%M:%S +0000 %Y'))
+            time_created =  time.strftime('%Y-%m-%d %H:%M:%S', time.strptime(result['created_at'], '%a %b %d %H:%M:%S +0000 %Y'))
             handle = result['user']['screen_name']
             if 'retweeted_status' in result:
                 retweets = result['retweeted_status']['retweet_count']
@@ -52,8 +52,9 @@ def tweet_to_db():
     output = format_tweets()
     text_list = [a.text for a in Tweet.query.all()]
 
+
     for tweet in output:
-        if text not in text_list:
+        if tweet not in text_list:
             tweet = Tweet(handle = tweet[0],
                             time_created =tweet[1],
                             text = tweet[2],
@@ -100,7 +101,6 @@ def create_api_endpoint():
         tweedict[tweet.handle] = tweet.text
 
     return jsonify(tweedict)
-
 
 
 if __name__ == "__main__":
