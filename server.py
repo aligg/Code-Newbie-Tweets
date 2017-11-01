@@ -79,7 +79,15 @@ def display_about():
 
     return render_template("about.html")
 
+
+@app.route("/friends")
+def display_friends():
+    """Diplay list of contributors to open source code practice project"""
+
+    return render_template("friends.html")
+
     
+
 @app.route("/api/tweets")
 def create_api_endpoint():
     """Using ingested dsta from twitter create an API endpoint"""
