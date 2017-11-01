@@ -72,6 +72,14 @@ def homepage():
     return render_template("home.html", output = output)
 
 
+
+@app.route("/about")
+def display_about():
+    """Diplay about page"""
+
+    return render_template("about.html")
+
+    
 @app.route("/api/tweets")
 def create_api_endpoint():
     """Using ingested dsta from twitter create an API endpoint"""
@@ -90,6 +98,7 @@ if __name__ == "__main__":
     app.debug = True
     connect_to_db(app, "postgresql:///newb")
     app.run(port=5000)
+
     tweet_to_db()
 
 
