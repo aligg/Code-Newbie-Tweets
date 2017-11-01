@@ -44,6 +44,7 @@ def format_tweets():
 
     return output
 
+
 def tweet_to_db():
     """Add tweets into db"""
 
