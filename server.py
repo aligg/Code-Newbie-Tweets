@@ -1,5 +1,6 @@
 import json
 import time
+import re
 import oauth2 as oauth
 from secret import keys
 from flask import (Flask, jsonify, render_template)
@@ -11,6 +12,7 @@ from model import (connect_to_db, db, Tweet)
 app = Flask(__name__)
 app.secret_key = "miau"
 
+link = re.compile(r'(http(s)?://\w+(\.\w+)+/(\w)*)')
 
 def authorize():
     """authorize w/ twitter api and fetch recent codenewbie tweets, return a json"""
@@ -35,7 +37,7 @@ def format_tweets():
 
     for result in results:
         if result['text'][0:2] != 'RT':
-            tweet = result['text']
+            tweet = linkyfy(result['text']) # embeds link in anchor tag 
             time_created =  time.strftime('%Y-%m-%d %H:%M:%S', time.strptime(result['created_at'], '%a %b %d %H:%M:%S +0000 %Y'))
             handle = result['user']['screen_name']
             if 'retweeted_status' in result:
@@ -62,6 +64,12 @@ def tweet_to_db():
 
     db.session.commit()
 
+def linkyfy(text):
+    """ Embeds links in anchor tag"""
+    links = link.findall(text)
+    for l in links:
+        text = text.replace(l[0], r"<a href='%s'>%s</a>" % (l[0], l[0]))
+    return text
 
 @app.route("/")
 def homepage():
