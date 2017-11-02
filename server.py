@@ -21,7 +21,7 @@ def authorize():
     test_url = "https://api.twitter.com/1.1/search/tweets.json?q=%23codenewbie&result_type=mixed&count=100&include_entities=false"
     response, data = client.request(test_url)
 
-    return json.loads(data)
+    return jsonify(data)#json.loads(data)
 
 
 def format_tweets():
@@ -51,10 +51,12 @@ def tweet_to_db():
 
     output = format_tweets()
     text_list = [a.text for a in Tweet.query.all()]
+    print output
+    print text_list
 
 
     for tweet in output:
-        if tweet not in text_list:
+        if tweet not in text_list: #need to edit this 
             tweet = Tweet(handle = tweet[0],
                             time_created =tweet[1],
                             text = tweet[2],
@@ -72,7 +74,6 @@ def homepage():
    
 
     return render_template("home.html", output = output)
-
 
 
 @app.route("/about")
@@ -108,6 +109,5 @@ if __name__ == "__main__":
     connect_to_db(app, "postgresql:///newb")
     app.run(port=5000)
 
-    tweet_to_db()
 
 
