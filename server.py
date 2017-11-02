@@ -5,7 +5,6 @@ import oauth2 as oauth
 from secret import keys
 from flask import (Flask, jsonify, render_template)
 from model import (connect_to_db, db, Tweet)
-#import pprint    pp = pprint.PrettyPrinter(indent=4) pp.pprint(stufftoprint)
 
 
 
@@ -23,7 +22,7 @@ def authorize():
     test_url = "https://api.twitter.com/1.1/search/tweets.json?q=%23codenewbie&result_type=mixed&count=100&include_entities=false"
     response, data = client.request(test_url)
 
-    return jsonify(data)#json.loads(data)
+    return json.loads(data)
 
 
 def format_tweets():
@@ -53,7 +52,6 @@ def tweet_to_db():
 
     output = format_tweets()
     text_list = [a.text for a in Tweet.query.all()]
-    print output
     print text_list
 
 
@@ -69,15 +67,18 @@ def tweet_to_db():
 
 def linkyfy(text):
     """ Embeds links in anchor tag"""
+
     links = link.findall(text)
     for l in links:
         text = text.replace(l[0], r"<a href='%s'>%s</a>" % (l[0], l[0]))
+
     return text
 
 @app.route("/")
 def homepage():
     """Display tweets"""
     
+    tweet_to_db()
     output = [a for a in Tweet.query.all()]
    
 
@@ -116,6 +117,9 @@ if __name__ == "__main__":
     app.debug = True
     connect_to_db(app, "postgresql:///newb")
     app.run(port=5000)
+    tweet_to_db()
+
+    
 
 
 
