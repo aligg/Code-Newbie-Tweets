@@ -4,9 +4,10 @@
 
     <div class="row marketing">
         <div class="col-lg-6">
+
             {% for tweet in output %}
             <h4>{{tweet.handle }} {{tweet.time_created }}</h4>
-            <p>{{tweet.text | safe}} {{tweet.retweets}}</p>
+            <p>{{tweet.text | safe}} {{'[%s]' % tweet.retweets if tweet.retweets}}</p>
             {% endfor %}
         </div>
             
