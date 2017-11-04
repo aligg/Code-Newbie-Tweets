@@ -83,8 +83,9 @@ def linkyfy(text, is_name=False):
 @app.route("/")
 def homepage():
     """Display tweets"""
+    
     output = [a for a in Tweet.query.all()]
-
+    tweet_to_db()
     #to display as hyper links
     for tweet in output:
         tweet.handle = linkyfy(tweet.handle, is_name=True)
@@ -102,7 +103,7 @@ def display_about():
 
 @app.route("/friends")
 def display_friends():
-    """Diplay list of contributors to open source code practice project"""
+    """Display list of contributors to open source code practice project"""
 
     return render_template("friends.html")
 
@@ -134,4 +135,4 @@ if __name__ == "__main__":
     app.debug = True
     connect_to_db(app, "postgresql:///newb")
     app.run(port=5000)
-    tweet_to_db()
+    
