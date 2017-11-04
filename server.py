@@ -121,6 +121,15 @@ def create_api_endpoint():
     return jsonify(tweedict)
 
 
+@app.route("/archives")
+def archives():
+    """ Displays previous tweets """
+
+    return render_template("archives.html")
+
+
+
+
 if __name__ == "__main__":
     app.debug = True
     connect_to_db(app, "postgresql:///newb")
