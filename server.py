@@ -11,7 +11,7 @@ from model import (connect_to_db, db, Tweet)
 app = Flask(__name__)
 app.secret_key = "miau"
 
-link = re.compile(r'(http(s)?://\w+(\.\w+)+/(\w)*)')
+link = re.compile(r'(http(s)?://\w+(\.\w+)+(/\w+)*|@(\w+)|#(\w+))')
 
 def authorize():
     """authorize w/ twitter api and fetch recent codenewbie tweets, return a json"""
@@ -36,7 +36,7 @@ def format_tweets():
 
     for result in results:
         if result['text'][0:2] != 'RT':
-            tweet = linkyfy(result['text']) # embeds link in anchor tag 
+            tweet = result['text']
             time_created =  time.strftime('%Y-%m-%d %H:%M:%S', time.strptime(result['created_at'], '%a %b %d %H:%M:%S +0000 %Y'))
             handle = result['user']['screen_name']
             if 'retweeted_status' in result:
@@ -65,24 +65,32 @@ def tweet_to_db():
 
     db.session.commit()
 
-def linkyfy(text):
+def linkyfy(text, is_name=False):
     """ Embeds links in anchor tag"""
-
+    if is_name:
+        text = u"<a href='https://twitter.com/{0}'>{0}</a>".format(text)
+        return text
     links = link.findall(text)
     for l in links:
-        text = text.replace(l[0], r"<a href='%s'>%s</a>" % (l[0], l[0]))
-
+        if l[0].startswith('@'):
+            text = text.replace(l[0], r"<a href='https://twitter.com/%s'>%s</a>" % (l[4], l[0]))
+        elif l[0].startswith('#'):
+            text = text.replace(l[0], r"<a href='https://twitter.com/search?q=%%23%s'>%s</a>"%(l[5], l[0]))
+        else:
+            text = text.replace(l[0], r"<a href='%s'>%s</a>" % (l[0], l[0]))
     return text
 
 @app.route("/")
 def homepage():
     """Display tweets"""
-    
-    tweet_to_db()
     output = [a for a in Tweet.query.all()]
-   
 
-    return render_template("home.html", output = output)
+    #to display as hyper links
+    for tweet in output:
+        tweet.handle = linkyfy(tweet.handle, is_name=True)
+        tweet.text = linkyfy(tweet.text)
+
+    return render_template("home.html", output=output)
 
 
 @app.route("/about")
@@ -98,7 +106,7 @@ def display_friends():
 
     return render_template("friends.html")
 
-    
+
 
 @app.route("/api/tweets")
 def create_api_endpoint():
@@ -118,8 +126,3 @@ if __name__ == "__main__":
     connect_to_db(app, "postgresql:///newb")
     app.run(port=5000)
     tweet_to_db()
-
-    
-
-
-
