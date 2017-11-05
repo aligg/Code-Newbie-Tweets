@@ -51,10 +51,12 @@ def tweet_to_db():
     """Add tweets into db"""
 
     output = format_tweets()
+    print "OUTPUT", output
     text_list = [a.text for a in Tweet.query.all()]
+    print "TEXT LIST", text_list
 
     for tweet in output:
-        if tweet not in text_list: #need to edit this 
+        if tweet[2] not in text_list: #need to edit this 
             tweet = Tweet(handle = tweet[0],
                             time_created =tweet[1],
                             text = tweet[2],
@@ -83,8 +85,10 @@ def linkyfy(text, is_name=False):
 def homepage():
     """Display tweets"""
     
-    output = [a for a in Tweet.query.order_by(desc('time_created')).all()]
     tweet_to_db()
+    output = [a for a in Tweet.query.order_by(desc('time_created')).all()]
+    print output
+    
     #to display as hyper links
     for tweet in output:
         tweet.handle = linkyfy(tweet.handle, is_name=True)
