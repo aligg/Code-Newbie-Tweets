@@ -5,6 +5,7 @@ import oauth2 as oauth
 from secret import keys
 from flask import (Flask, jsonify, render_template)
 from model import (connect_to_db, db, Tweet)
+from sqlalchemy import desc
 
 
 
@@ -42,18 +43,15 @@ def format_tweets():
             if 'retweeted_status' in result:
                 retweets = result['retweeted_status']['retweet_count']
             output.append((handle, time_created, tweet, retweets))
-
+  
     return output
 
 
 def tweet_to_db():
     """Add tweets into db"""
 
-
     output = format_tweets()
     text_list = [a.text for a in Tweet.query.all()]
-    print text_list
-
 
     for tweet in output:
         if tweet not in text_list: #need to edit this 
@@ -80,11 +78,12 @@ def linkyfy(text, is_name=False):
             text = text.replace(l[0], r"<a href='%s'>%s</a>" % (l[0], l[0]))
     return text
 
+
 @app.route("/")
 def homepage():
     """Display tweets"""
     
-    output = [a for a in Tweet.query.all()]
+    output = [a for a in Tweet.query.order_by(desc('time_created')).all()]
     tweet_to_db()
     #to display as hyper links
     for tweet in output:
