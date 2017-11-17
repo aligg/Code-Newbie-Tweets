@@ -28,11 +28,9 @@ body {
     float: right!important;
 }
 
-ul, {
+.ul {
     display: block;
 }
-
-
 
 .header .marketing {
     padding-right: 15px;
