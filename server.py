@@ -51,9 +51,8 @@ def tweet_to_db():
     """Add tweets into db"""
 
     output = format_tweets()
-    print "OUTPUT", output
+    
     text_list = [a.text for a in Tweet.query.all()]
-    print "TEXT LIST", text_list
 
     for tweet in output:
         if tweet[2] not in text_list: #need to edit this 
@@ -87,7 +86,6 @@ def homepage():
     
     tweet_to_db()
     output = [a for a in Tweet.query.order_by(desc('time_created')).all()]
-    print output
     
     #to display as hyper links
     for tweet in output:
