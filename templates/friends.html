@@ -1,13 +1,38 @@
 {% extends 'base.html' %}
 
 {% block content%}
+<style>
+tabel {border-spacing: 5px;}
+td {padding: 10px;}
+th{padding: 10px; text-align: center;} 
+</style>
+
 <div class="row marketing">
     <div class="container">
         <h4>This project brought to you by:</h4>
         <h5><a href="https://github.com/aligg/Code-Newbie-Tweets/graphs/contributors">These badasses :)</a></h5>
-        
-        <img src="https://i.redd.it/v2h5cbtv8lxz.jpg" alt="A cat standing up">
+
+               
+        <table border="2"> 
+               <tr>
+                   <th colspan="3" >Contributors:</th>
+               </tr>
+                <tr>
+                    <th>Name:</th>
+                    <th>Email:</th>
+                    <th>Github Url:</th>   
+                </tr> 
+            <tbody>
+                <tr>
+                    <td>ZeroSkilz</td>
+                    <td>ZeroSkilz@mail.com</td>
+                    <td>https://github.com/zeroskilz</td>
+                </tr>       
+            </tbody>
+        </table>
+        </br></br>
+
+               <img src="https://i.redd.it/v2h5cbtv8lxz.jpg" alt="A cat standing up">
     </div>
 </div>
-
 {% endblock %}
