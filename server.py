@@ -21,8 +21,6 @@ def authorize():
     consumer = oauth.Consumer(key=keys["consumer_key"], secret=keys["consumer_secret"])
     access_token = oauth.Token(key=keys["access_token"], secret=keys["access_secret"])
     client = oauth.Client(consumer, access_token)
-    #test_url = "https://www.google.com"
-#aligg's test_url for tweets
     test_url = "https://api.twitter.com/1.1/search/tweets.json?q=%23codenewbie&result_type=mixed&count=100&include_entities=false"
     response, data = client.request(test_url)
 
