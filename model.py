@@ -6,6 +6,7 @@ from datetime import datetime
 class Tweet(db.Model):
     """tweets taken in to db"""
 
+
     __tablename__ = "tweets"
 
     item_id = db.Column(db.Integer, autoincrement=True, primary_key=True, nullable=False)
@@ -20,14 +21,18 @@ class Tweet(db.Model):
         return "<Item item_id=%s handle=%s>" % (self.item_id, self.handle)
 
 
-def connect_to_db(app, db_uri="postgresql:///newb"):
+def connect_to_db(app,
+        db_uri="postgresql://username:password@localhost:port/newb"):
     """Connect the database to app"""
 
     app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.app = app
     db.init_app(app)
+
+
+
 
 
 if __name__ == "__main__":
