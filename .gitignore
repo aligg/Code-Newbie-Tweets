@@ -1,5 +1,7 @@
 .vscode/
 env/
+secret/
 secret.py
 *.pyc
 .DS_Store
+
