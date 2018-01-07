@@ -4,4 +4,7 @@ secret/
 secret.py
 *.pyc
 .DS_Store
-
+.idea
+Vagrantfile
+ubuntu-xenial-16.04-cloudimg-console.log
+.vagrant
