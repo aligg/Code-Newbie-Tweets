@@ -5,8 +5,6 @@ from datetime import datetime
 
 class Tweet(db.Model):
     """tweets taken in to db"""
-
-
     __tablename__ = "tweets"
 
     item_id = db.Column(db.Integer, autoincrement=True, primary_key=True, nullable=False)
