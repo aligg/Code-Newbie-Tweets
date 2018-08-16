@@ -138,5 +138,5 @@ if __name__ == "__main__":
     app.debug = True
 # Change the postgresql info below username, password, port
     connect_to_db(app, "postgresql://username:password@localhost/newb")
-    app.run(port=5000)
+    app.run(host="0.0.0.0")
 
