@@ -14,6 +14,13 @@ body {
     border-bottom: 1px solid #e5e5e5;
 }
 
+.image-border {
+    border-radius: 20px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .footer {
     padding-top: 19px;
     color: #777;
