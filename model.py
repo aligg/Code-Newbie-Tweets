@@ -20,7 +20,7 @@ class Tweet(db.Model):
 
 
 def connect_to_db(app,
-        db_uri="postgresql://username:password@localhost:port/newb"):
+        db_uri="postgresql:///newb"):
     """Connect the database to app"""
 
     app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
