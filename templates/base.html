@@ -19,15 +19,33 @@
     <div class="header clearfix">
         <nav>
             <ul class="nav nav-pills pull-right">
+                {% if request.path == '/' %}
                 <li role="presentation" class="active">
                     <a href="/">Home</a>
                 </li>
+                {% else %}
+                <li role="presentation">
+                    <a href="/">Home</a>
+                </li>  
+                {% endif %}
+                {% if request.path == '/about' %}              
+                <li role="presentation" class="active">
+                    <a href="/about">About</a>
+                </li>
+                {% else %}
                 <li role="presentation">
                     <a href="/about">About</a>
                 </li>
+                {% endif %}
+                {% if request.path == '/archives' %}                
+                <li role="presentation" class="active">
+                    <a href="/archives">Archives</a>
+                </li>
+                {% else %}
                 <li role="presentation">
                     <a href="/archives">Archives</a>
                 </li>
+                {% endif %}                
             </ul>
         </nav>
         <h3 class="text-muted">Code Newbie Tweets</h3>
