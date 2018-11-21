@@ -1,8 +1,8 @@
 from sqlalchemy import create_engine
 from sqlalchemy import Table, Column, String, MetaData, Integer
+from server import DB_URI
 # modify the below postgresql address with you info
-db_string = "postgresql://username:password@localhost/newb"
-db = create_engine(db_string)
+db = create_engine(DB_URI)
 meta = MetaData(db)
 tweets_table = Table('tweets', meta,
                      Column('item_id', Integer, autoincrement=True, primary_key=True, nullable=False),
