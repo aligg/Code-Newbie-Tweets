@@ -7,6 +7,15 @@ I created this project to practice pulling data from an API, storing that data i
 
 * Create a directory called `secret` with an empty `__init__.py` file inside. Make a `keys.py` file in the `secret` directory (based on the `secretkeys_template.py`) and populate it with your Twitter API credentials.
 
+* **If** you want to alter the default behavior, you can export any of the following environment variables:
+
+  * `NEWBIE_TWEETS_DB_URI` to override the DEFAULT_DB_URI specified in `server.py`
+
+  * `NEWBIE_TWEETS_LISTEN_HOST` to override the DEFAULT_LISTEN_HOST specified in `server.py`
+
+  * `NEWBIE_TWEETS_LISTEN_PORT` to override the DEFAULT_LISTEN_PORT specified in `server.py`
+
+
 * I still need to create a seed file for the database for others to get up and running with the project. Stay tuned! 
 
 
