@@ -19,8 +19,8 @@ class Tweet(db.Model):
         return "<Item item_id=%s handle=%s>" % (self.item_id, self.handle)
 
 
-def connect_to_db(app,
-        db_uri="postgresql://username:password@localhost:port/newb"):
+def connect_to_db(app,db_uri="postgresql:///newb"):
+
     """Connect the database to app"""
 
     app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
@@ -36,6 +36,6 @@ def connect_to_db(app,
 if __name__ == "__main__":
 
     from server import app
-    connect_to_db(app)
+    connect_to_db(app,db_uri="postgresql:///newb")
     db.create_all()
     print("Connected to DB, Woohoo!")
