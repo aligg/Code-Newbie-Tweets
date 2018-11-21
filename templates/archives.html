@@ -4,9 +4,19 @@
 
 <div class="row marketing">
 	<div class="container">
-	<ul>
-	<li> Archive posts will display here
-	</ul>
+
+        {% for key in output.keys() %}
+        <h3>{{key}}</h3>
+            <div class="row marketing">
+                <div class="col-lg-6">
+                    <ul>{% for tweet in output[key] %}
+                        <li><h4>{{tweet.handle | safe}} {{tweet.time_created }}</h4></li>
+                        <p>{{tweet.text | safe}} {{'[%s]' % tweet.retweets if tweet.retweets}}</p>
+                    {% endfor %}</ul>
+                </div>
+            </div>
+    	{% endfor %}
+	
 	</div>
 </div>
 

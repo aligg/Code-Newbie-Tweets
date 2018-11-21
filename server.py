@@ -6,6 +6,7 @@ from secret import keys
 from flask import (Flask, jsonify, render_template)
 from model import (connect_to_db, db, Tweet)
 from sqlalchemy import desc
+import datetime
 
 key = keys.key()
 
@@ -84,18 +85,23 @@ def linkyfy(text, is_name=False):
             text = text.replace(l[0], r"<a href='%s'>%s</a>" % (l[0], l[0]))
     return text
 
-
-@app.route("/")
-def homepage():
-    """Display tweets"""
-
-    tweet_to_db()
+def get_output():
+    """Get output from database"""
     output = [a for a in Tweet.query.order_by(desc('time_created')).all()]
 
     # to display as hyper links
     for tweet in output:
         tweet.handle = linkyfy(tweet.handle, is_name=True)
         tweet.text = linkyfy(tweet.text)
+    return output
+
+
+@app.route("/")
+def homepage():
+    """Display tweets"""
+
+    tweet_to_db()
+    output = get_output()
 
     return render_template("home.html", output=output)
 
@@ -131,12 +137,23 @@ def create_api_endpoint():
 def archives():
     """ Displays previous tweets """
 
-    return render_template("archives.html")
+    output = get_output()
+    output_date = {}
+
+    for i in range(len(output)):
+        date = output[i].time_created.date().strftime("%Y-%m-%d")        
+        if output_date.get(date):
+            output_date[date].append(output[i])
+        else:
+            output_date[date] = [output[i]]
+
+
+    return render_template("archives.html", output=output_date)
 
 
 if __name__ == "__main__":
     app.debug = True
 # Change the postgresql info below username, password, port
-    connect_to_db(app, "postgresql://username:password@localhost/newb")
-    app.run(port=5000)
+    connect_to_db(app, "postgresql:///newb")
+    app.run(host="0.0.0.0")
 
