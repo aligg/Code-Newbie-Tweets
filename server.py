@@ -2,6 +2,7 @@ import json
 import time
 import re
 import oauth2 as oauth
+import os
 from secret import keys
 from flask import (Flask, jsonify, render_template)
 from model import (connect_to_db, db, Tweet)
@@ -17,6 +18,21 @@ app.secret_key = key['Flask_Key']
 
 link = re.compile(r'(http(s)?://\w+(\.\w+)+(/\w+)*|@(\w+)|#(\w+))')
 
+DEFAULT_DB_URI = "postgresql:///newb"
+DB_URI = os.environ.get(
+    'NEWBIE_TWEETS_DB_URI',
+    DEFAULT_DB_URI,
+)
+DEFAULT_LISTEN_HOST = '127.0.0.1:5000'
+LISTEN_HOST = os.environ.get(
+    'NEWBIE_TWEETS_LISTEN_HOST',
+    DEFAULT_LISTEN_HOST,
+)
+DEFAULT_LISTEN_PORT = '5000'
+LISTEN_PORT = int(os.environ.get(
+    'NEWBIE_TWEETS_LISTEN_PORT',
+    DEFAULT_LISTEN_PORT,
+))
 
 def authorize():
     """authorize w/ twitter api and fetch recent codenewbie tweets, return a json"""
@@ -153,7 +169,8 @@ def archives():
 
 if __name__ == "__main__":
     app.debug = True
-# Change the postgresql info below username, password, port
-    connect_to_db(app, "postgresql:///newb")
-    app.run(host="0.0.0.0")
+
+    connect_to_db(app, DB_URI)
+    app.run(host=LISTEN_HOST, port=LISTEN_PORT)
+
 
